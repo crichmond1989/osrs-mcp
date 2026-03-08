@@ -1,5 +1,6 @@
 # Build output
 osrs-mcp
+dist/
 
 # Test coverage
 coverage.out
