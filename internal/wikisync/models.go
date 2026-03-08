@@ -8,7 +8,7 @@ const (
 )
 
 // WikiSyncResponse holds the data returned by the WikiSync player endpoint.
-// Quests maps OSRS internal quest IDs (as strings) to their completion state.
+// Quests maps quest names to their completion state.
 type WikiSyncResponse struct {
 	Quests map[string]int `json:"quests"`
 }

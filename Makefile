@@ -1,4 +1,4 @@
-.PHONY: lint build test cover check clean
+.PHONY: lint build test cover check publish clean
 
 lint:
 	golangci-lint run ./...
@@ -16,5 +16,8 @@ cover: test
 
 check: lint build test
 
+publish:
+	go build -o osrs-mcp ./cmd/osrs-mcp
+
 clean:
-	rm -f coverage.out
+	rm -f coverage.out osrs-mcp

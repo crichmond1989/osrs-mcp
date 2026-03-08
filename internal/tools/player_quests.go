@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/mark3labs/mcp-go/mcp"
@@ -25,7 +26,7 @@ func NewPlayerQuestsTool(c wikisync.Client) *PlayerQuestsTool {
 func (t *PlayerQuestsTool) Definition() mcp.Tool {
 	return mcp.NewTool("player_quests",
 		mcp.WithDescription("Fetch quest completion status for an OSRS player using WikiSync data. "+
-			"Returns counts of quests by completion state (complete, in progress, not started). "+
+			"Returns each quest grouped by completion state (complete, in progress, not started). "+
 			"Requires the player to have enabled the WikiSync plugin in RuneLite."),
 		mcp.WithString("player",
 			mcp.Required(),
@@ -53,22 +54,33 @@ func (t *PlayerQuestsTool) Handler(ctx context.Context, req mcp.CallToolRequest)
 		return mcp.NewToolResultError(fmt.Sprintf("WikiSync lookup failed: %v", err)), nil
 	}
 
-	var complete, inProgress, notStarted int
-	for _, state := range res.Quests {
+	var complete, inProgress, notStarted []string
+	for name, state := range res.Quests {
 		switch state {
 		case wikisync.QuestComplete:
-			complete++
+			complete = append(complete, name)
 		case wikisync.QuestInProgress:
-			inProgress++
+			inProgress = append(inProgress, name)
 		default:
-			notStarted++
+			notStarted = append(notStarted, name)
 		}
 	}
+	sort.Strings(complete)
+	sort.Strings(inProgress)
+	sort.Strings(notStarted)
 
 	var sb strings.Builder
 	fmt.Fprintf(&sb, "Player: %s (WikiSync data)\n\n", player)
-	fmt.Fprintf(&sb, "Quest completion: %d complete, %d in progress, %d not started\n",
-		complete, inProgress, notStarted)
+	writeGroup := func(label string, quests []string) {
+		fmt.Fprintf(&sb, "%s (%d):\n", label, len(quests))
+		for _, q := range quests {
+			fmt.Fprintf(&sb, "  - %s\n", q)
+		}
+		fmt.Fprintln(&sb)
+	}
+	writeGroup("Complete", complete)
+	writeGroup("In Progress", inProgress)
+	writeGroup("Not Started", notStarted)
 
 	return mcp.NewToolResultText(sb.String()), nil
 }
