@@ -1,4 +1,4 @@
-module github.com/crich/osrs-mcp
+module github.com/crichmond1989/osrs-mcp
 
 go 1.23.0
 

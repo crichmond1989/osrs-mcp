@@ -8,7 +8,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/crich/osrs-mcp/internal/hiscores"
+	"github.com/crichmond1989/osrs-mcp/internal/hiscores"
 )
 
 // PlayerStatsTool implements the player_stats MCP tool.

@@ -1,4 +1,4 @@
-.PHONY: lint build test cover check publish clean
+.PHONY: lint build test cover check publish docker-build clean
 
 lint:
 	golangci-lint run ./...
@@ -18,6 +18,9 @@ check: lint build test
 
 publish:
 	go build -o osrs-mcp ./cmd/osrs-mcp
+
+docker-build:
+	docker build -t osrs-mcp .
 
 clean:
 	rm -f coverage.out osrs-mcp

@@ -9,7 +9,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/crich/osrs-mcp/internal/wikisync"
+	"github.com/crichmond1989/osrs-mcp/internal/wikisync"
 )
 
 // PlayerQuestsTool implements the player_quests MCP tool.

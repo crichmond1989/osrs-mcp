@@ -53,7 +53,7 @@ func (c *RealClient) get(ctx context.Context, path string) ([]byte, error) {
 	if err != nil {
 		return nil, fmt.Errorf("prices: build request: %w", err)
 	}
-	req.Header.Set("User-Agent", "osrs-mcp/1.0 (github.com/crich/osrs-mcp)")
+	req.Header.Set("User-Agent", "osrs-mcp/1.0 (github.com/crichmond1989/osrs-mcp)")
 
 	resp, err := c.http.Do(req)
 	if err != nil {

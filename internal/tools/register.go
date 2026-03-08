@@ -3,10 +3,10 @@ package tools
 import (
 	"github.com/mark3labs/mcp-go/server"
 
-	"github.com/crich/osrs-mcp/internal/hiscores"
-	"github.com/crich/osrs-mcp/internal/prices"
-	"github.com/crich/osrs-mcp/internal/wiki"
-	"github.com/crich/osrs-mcp/internal/wikisync"
+	"github.com/crichmond1989/osrs-mcp/internal/hiscores"
+	"github.com/crichmond1989/osrs-mcp/internal/prices"
+	"github.com/crichmond1989/osrs-mcp/internal/wiki"
+	"github.com/crichmond1989/osrs-mcp/internal/wikisync"
 )
 
 // RegisterAll wires all MCP tools onto the server.

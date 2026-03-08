@@ -6,7 +6,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/crich/osrs-mcp/internal/prices"
+	"github.com/crichmond1989/osrs-mcp/internal/prices"
 )
 
 func makePricesMappingReq(args map[string]any) mcp.CallToolRequest {

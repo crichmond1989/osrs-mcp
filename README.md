@@ -32,14 +32,17 @@ go build -o osrs-mcp ./cmd/osrs-mcp
 Or install directly:
 
 ```sh
-go install github.com/crich/osrs-mcp/cmd/osrs-mcp@latest
+go install github.com/crichmond1989/osrs-mcp/cmd/osrs-mcp@latest
 ```
 
 ## Integration
 
-The server communicates over stdio using the MCP protocol. Any MCP-compatible client can connect to it.
+The server supports two transports:
 
-### Claude Desktop
+- **stdio** (default) — for local desktop clients
+- **HTTP** (`--addr :8080`) — for remote/mobile clients and hosted deployments
+
+### Claude Desktop (stdio)
 
 Add an entry to your Claude Desktop config file:
 
@@ -60,13 +63,13 @@ Replace `/absolute/path/to/osrs-mcp` with the actual path to the built binary (e
 
 Restart Claude Desktop after editing the config. The OSRS tools will appear in the tools panel.
 
-### Claude Code (CLI)
+### Claude Code (CLI, stdio)
 
 ```sh
 claude mcp add osrs /absolute/path/to/osrs-mcp
 ```
 
-### Cursor
+### Cursor (stdio)
 
 Open **Settings → MCP** and add a new server:
 
@@ -78,9 +81,55 @@ Open **Settings → MCP** and add a new server:
 }
 ```
 
+### Claude Mobile / Remote Clients (HTTP)
+
+Mobile apps and remote clients connect over HTTP. Run the server with `--addr`:
+
+```sh
+osrs-mcp --addr :8080
+```
+
+The MCP endpoint is served at `/mcp`. Point your client at `https://your-host/mcp`.
+
+In Claude's mobile app, add a remote connector URL of `https://your-host/mcp`.
+
+You can also set the `ADDR` environment variable instead of the flag:
+
+```sh
+ADDR=:8080 osrs-mcp
+```
+
+### Docker
+
+```sh
+make docker-build
+docker run -p 8080:8080 osrs-mcp
+```
+
+The Docker image defaults to HTTP mode on port 8080.
+
+### Azure Container Apps (recommended for hosting)
+
+```sh
+# Build and push to a registry
+docker tag osrs-mcp <registry>.azurecr.io/osrs-mcp:latest
+docker push <registry>.azurecr.io/osrs-mcp:latest
+
+# Deploy (scale-to-zero, ~$0/month for typical usage)
+az containerapp up \
+  --name osrs-mcp \
+  --resource-group <rg> \
+  --image <registry>.azurecr.io/osrs-mcp:latest \
+  --target-port 8080 \
+  --ingress external
+```
+
+The deployed URL will be `https://osrs-mcp.<region>.azurecontainerapps.io`. Use `/mcp` as the connector path.
+
 ### Other MCP Clients
 
-The server speaks standard MCP over stdio. Pass the binary path as the command in whatever MCP client you use. No environment variables or arguments are required.
+- **stdio**: pass the binary path as the command. No flags needed.
+- **HTTP**: run with `--addr :PORT` and point the client at `https://your-host/mcp`.
 
 ## Development
 
@@ -109,6 +158,7 @@ Update this file whenever:
 - The minimum Go version changes — update **Requirements**
 - The module path or binary name changes — update all build/install commands
 - A new integration method is tested and confirmed — add it to **Integration**
+- The HTTP endpoint path or transport changes — update the **HTTP** and **Docker** sections
 
 The [feature catalog](docs/feature-catalog.md) is the source of truth for tool details; this README is the entry point summary.
 

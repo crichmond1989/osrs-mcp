@@ -7,7 +7,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/crich/osrs-mcp/internal/wikisync"
+	"github.com/crichmond1989/osrs-mcp/internal/wikisync"
 )
 
 func makePlayerQuestsReq(args map[string]any) mcp.CallToolRequest {

@@ -7,7 +7,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/crich/osrs-mcp/internal/hiscores"
+	"github.com/crichmond1989/osrs-mcp/internal/hiscores"
 )
 
 func makePlayerStatsReq(args map[string]any) mcp.CallToolRequest {

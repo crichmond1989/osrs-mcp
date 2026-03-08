@@ -7,7 +7,7 @@ import (
 
 	"github.com/mark3labs/mcp-go/mcp"
 
-	"github.com/crich/osrs-mcp/internal/wiki"
+	"github.com/crichmond1989/osrs-mcp/internal/wiki"
 )
 
 // WikiSearchFullTool implements the wiki_search_full MCP tool using action=query&list=search.
