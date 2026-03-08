@@ -1,5 +1,5 @@
 # Build output
-osrs-mcp
+/osrs-mcp
 dist/
 
 # Test coverage
